@@ -41,7 +41,7 @@
 
 
 .card:first-child {
-  margin-top: 36px;
+  margin-top: 16px;
 }
 .card:last-child {
   margin-bottom: 16px;
@@ -59,72 +59,96 @@
 }
 
 .card-2 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.56);
 }
 
 .card-3 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.49);
 }
 
 .card-4 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.42);
 }
 
 .card-5 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.35);
 }
 
 .card-6 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.28);
 }
 
 .card-7 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.21);
 }
 
 .card-8 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .card-9 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.7);
 }
 
 .card-black {
-  opacity: 0.7;
   background: rgba(20, 25, 26, 0.9);
 }
 
 @media (min-width: 992px) {
-    .col-md-seperator:not(:last-child) {
+    /*.col-md-seperator:not(:last-child) {
         border-right: 2px solid rgba(40, 40, 49, 0.2);
     }
     .col-md-seperator + .col-md-seperator {
         border-left: 2px solid rgba(40, 40, 49, 0.2);
         margin-left: -2px;
-    }
+    }*/
 }
 
 .btn-solid{
-  background: rgba(240, 240, 240, 0.4);
+  background: rgba(240, 240, 240, 0.6);
   border: 0px;
   outline: 0px;
   color: #222;
   transition: 0.5s all ease-in;
-  margin: 6px;
+  margin-bottom: 6px;
   padding: 6px 12px 6px 12px;
 }
 
 .btn-solid:hover{
   background: rgba(240, 240, 240, 0.9);
+}
+
+.dropdown-toggle{
+  background: rgba(240, 240, 240, 0.6);
+  border: 0px;
+  border-radius: 30px;
+  outline: 0px;
+  color: #222;
+  transition: 0.5s all ease-in;
+  margin-left: 16px;
+  padding: 0;
+  height: 20px;
+  width: 20px;
+}
+
+.caret{
+  margin-left: -4px; 
+  margin-top: -4px;
+}
+
+.dropdown-toggle:hover{
+  background: rgba(240, 240, 240, 1);
+}
+
+.dropdown-menu{
+  background-color: rgba(240, 240, 240, 0.94);
+  padding: 10px; 
+  border: 0 ;
+  border-radius: 0;
+}
+
+.dropdown-item{
+  padding: 4px;
 }
 
 .inp-solid{
@@ -169,4 +193,55 @@
 }
 .no-right-padding{
     padding-right: 0;
+}
+
+.current-temperature{
+    color: #333;
+    opacity: 0.8;
+    font-size: 160px;
+    font-weight: 600;
+    margin-right: 40px;
+}
+
+.unit-temperature{
+    color: #333;
+    opacity: 0.48;
+    font-size: 80px;
+    font-weight: 500;
+}
+
+
+
+
+
+
+
+.no-padding{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.row{
+    width: 100%;
+}
+
+
+.container-full {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.center-div{
+    width: auto;
+    position: relative;
+    margin: auto auto;
+}
+
+.faint{
+    opacity: 0.7;
+}
+
+.gutter{
+  margin-left: 5px;
+  margin-right: 5px;
 }

@@ -4,10 +4,19 @@
         </div>-->
 
         <!--Temperature and Icon column-->
-        <div class="col-sm-12 col-md-12 col-lg-6 col-md-seperator no-left-padding test">
+        <div class="col-sm-12 col-md-12 col-lg-6 col-md-seperator no-right-padding test">
             <div class="center-div card-no-margin card-2 test">
                 <div style="width: auto; text-align: center; margin-top: -50px;">
-                    <i class="wi wi-day-sunny-overcast" style="transform: scale(6); margin-top: 120px; margin-bottom: 40px;"></i>
+                    <i *ngIf="wd_currently_icon === 'partly-cloudy-day'" class="wi wi-day-sunny-overcast" style="transform: scale(6); margin-top: 90px; margin-bottom: 60px;"></i>
+                    <i *ngIf="wd_currently_icon === 'partly-cloudy-night'" class="wi wi-night-alt-cloudy" style="transform: scale(6); margin-top: 90px; margin-bottom: 60px;"></i>
+                    <i *ngIf="wd_currently_icon === 'rain'" class="wi wi-rain test" style="transform: scale(6); margin-top: 90px; margin-bottom: 60px;"></i>
+                    <i *ngIf="wd_currently_icon === 'clear-day'" class="wi wi-day-sunny" style="transform: scale(6); margin-top: 90px; margin-bottom: 60px;"></i>
+                    <i *ngIf="wd_currently_icon === 'clear-night'" class="wi wi-night-clear" style="transform: scale(6); margin-top: 90px; margin-bottom: 60px;"></i>
+                    <i *ngIf="wd_currently_icon === 'fog'" class="wi wi-fog" style="transform: scale(6); margin-top: 90px; margin-bottom: 60px;"></i>
+                    <i *ngIf="wd_currently_icon === 'sleet'" class="wi sleet" style="transform: scale(6); margin-top: 90px; margin-bottom: 60px;"></i>
+                    <i *ngIf="wd_currently_icon === 'wind'" class="wi wi-strong-wind" style="transform: scale(6); margin-top: 90px; margin-bottom: 60px;"></i>
+                    <i *ngIf="wd_currently_icon === 'snow'" class="wi wi-snowflake-cold" style="transform: scale(6); margin-top: 90px; margin-bottom: 60px;"></i>
+                    <i *ngIf="wd_currently_icon === 'cloudy'" class="wi wi-cloud" style="transform: scale(6); margin-top: 90px; margin-bottom: 60px;"></i>
                 </div>
             </div>
             
@@ -20,7 +29,7 @@
             </div>
             
             <div class="center-div test">
-                <div class="card-no-margin card-4" style="margin-top: 30px;">
+                <div class="card-no-margin card-4" style="margin-top: 16px;">
                     <span>
                         Welcome to SkyCast weather app. See real-time weather for any location on Earth. Once you login, you can store search history and mark places as favourite.
                     </span>
@@ -38,31 +47,44 @@
         <!--Other information coloumn-->
         <div class="col-sm-12 col-md-12 col-lg-6 test no-right-padding">
                 <div class="col-sm-12 col-md-12 col-lg-12 no-right-padding no-left-padding">
+                    <span id="current-weather" style="display: none;">{{ wd_currently_icon }}</span>
                     
-                    <div class="card-no-margin card-2"> 
-                        <span class="small">Location: <i class="medium material-icons test" style="float: right;" (click)="goToMyLocation()">my_location</i></span>
-                        {{ cityName }}
-                        <div class="row" *ngIf="loggedIn">
-                            <button class="btn-solid" style="margin-left: 10px;" (click)="saveLocation()">Save this location</button>
+                    <div class="card-no-margin card-2" style="z-index: 10;"> 
+                        <span class="faint small">
+                            Location:
+                            <i class="medium material-icons test" style="float: right; margin-left: 12px;" (click)="goToMyLocation()">my_location</i>
+                            <i class="medium material-icons test" style="float: right; margin-left: 12px;" *ngIf="loggedIn && favouriteCities.indexOf(cityName) == -1" (click)="saveLocation()">favorite_border</i>
+                            <i class="medium material-icons test" style="float: right; margin-left: 12px;" *ngIf="loggedIn && favouriteCities.indexOf(cityName) > -1" (click)="removeLocation()">favorite</i>
+                        </span><br/>
+                        
+                        <div class="dropdown">{{ cityName }}
+                            <button *ngIf="loggedIn" class="btn-solid dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <span *ngFor="let city of favouriteCities; let i = index"><li class="dropdown-item" (click)="favouriteSelected(i)"><a>{{ city }}</a></li></span>
+                            </ul>
                         </div>
+
                         <div class="row">
                             <input type="text" class="inp-solid" style="margin-left: 10px;" [(ngModel)]='custom_city' #newLocation placeholder="Change location..." (blur)="onChangeLocationBlur()" (focus)="onChangeLocationFocus()" (keyup.enter)="getCoords(newLocation.value)"/>
-                            <br/><span class="small center-div text-danger" *ngIf="showChangeLocationTip">Press 'Enter' to submit.</span>
+                            <br/><span class="faint small center-div text-danger" *ngIf="showChangeLocationTip">Press 'Enter' to submit.</span>
                         </div>
                     </div>
 
                     <div class="card-no-margin card-3"> 
-                        <span class="small">Right now:</span><br>
+                        <span class="faint small">Right now:</span><br>
                         <span> {{ wd_currently.summary }}</span>
                     </div>
 
                     <div class="card-no-margin card-4"> 
-                        <span class="small">In few hours:</span><br>
+                        <span class="faint small">In few hours:</span><br>
                         {{ wd_hourly.summary }}
                     </div>
                     
                     <div class="card-no-margin card-5"> 
-                        <span class="small">This week:</span><br>
+                        <span class="faint small">This week:</span><br>
                         {{ wd_daily.summary }}
                     </div>
             </div>

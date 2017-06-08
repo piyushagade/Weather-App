@@ -3,17 +3,13 @@ import { GeolocationService } from '../../services/location.service';
 import { WeatherService } from '../../services/weather.service';
 import { GeocoderService } from '../../services/geocoder.service';
 import { SharerService } from '../../services/sharer.service';
-import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 'angularfire2';
+import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     selector: 'sc-current',
     templateUrl: './current.view.html',
     styleUrls: [
-        '../../../assets/css/main.css',
-        '../../../assets/css/spinner.css',
-        '../../../assets/css/data.css',
-        '../../../assets/css/icons.css',
         './current.styles.css'
     ],
     providers: [ GeolocationService, WeatherService, GeocoderService ]
@@ -21,11 +17,13 @@ import { Subscription } from 'rxjs/Subscription';
 
 
 export class CurrentComponent implements OnInit, OnDestroy{
-    items: FirebaseListObservable<any>;
+    user: FirebaseListObservable<any>;
+    user_favourites: FirebaseListObservable<any>;
     name: any;
     username: string;
     uid: string;
     loggedIn= false;
+    noCloudData= true;
 
     isBusy: boolean = true;
     showChangeLocationTip = false;
@@ -46,6 +44,8 @@ export class CurrentComponent implements OnInit, OnDestroy{
 
     wd_currently_icon: string = "clear-day";
 
+    favouriteCities: string[] = [];
+
     // Location data
     current_lat: string;
     current_lng: string;
@@ -58,10 +58,20 @@ export class CurrentComponent implements OnInit, OnDestroy{
 
 
   constructor(public af: AngularFire, private _gl: GeolocationService, private _ws: WeatherService, private _gc: GeocoderService, private _s: SharerService) {
-    this.items = af.database.list('/users', {
-      query: {
-        limitToLast: 500
+    // get messages in the chatroom
+    this.user = af.database.list('/users/' + this.uid, {
+        query: {
+            limitToLast: 100
+        }
+    });
+
+
+    this.user.subscribe((response) => {
+      if (response.length == 0) {
+        this.noCloudData = true;
       }
+      else
+        this.noCloudData = false;
     });
     
     // Check if user is logged in
@@ -71,6 +81,15 @@ export class CurrentComponent implements OnInit, OnDestroy{
         this.loggedIn = true;
         this.username = this.name.facebook.displayName;
         this.uid = this.name.facebook.uid;
+
+        this.user_favourites = af.database.list('/users/' + this.uid + '/favourites/', { preserveSnapshot: true });
+        
+        this.user_favourites
+            .subscribe(
+              snapshots =>{ snapshots.forEach(snapshot => {
+              if(this.favouriteCities.indexOf(snapshot.key) == -1) this.favouriteCities.push(snapshot.key);
+            });
+        })
         
         this.setIdle();  
       }
@@ -146,8 +165,25 @@ export class CurrentComponent implements OnInit, OnDestroy{
     this.goToMyLocationEvent.emit();
   }
 
+  saveLocation(){
+    this.af.database.object('/users/' + this.uid + '/favourites/' + this.cityName)
+      .set(Math.floor(Date.now() / 1000))
+      .then(_ => console.log('Favourite city set.'));
+  }
+
+  removeLocation(){
+    this.af.database.object('/users/' + this.uid + '/favourites/' + this.cityName)
+      .remove()
+      .then(_ => console.log('Favourite city deleted.'));
+      
+      this.favouriteCities.splice(this.favouriteCities.indexOf(this.cityName));
+  }
 
 
+  favouriteSelected(index){
+    this.getCoords(this.favouriteCities[index]);
+
+  }
 
   // Spinner functions
   setBusy(){
