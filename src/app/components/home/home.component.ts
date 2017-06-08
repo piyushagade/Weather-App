@@ -125,6 +125,7 @@ export class HomeComponent {
   getCoords(name: string){
     this.setBusy();
 
+
     // Get the coordinates
     this._gc.getCoords(name).subscribe(
       response => this.getWeatherCustomLocation(name, response.results[0].geometry.location.lat, response.results[0].geometry.location.lng),

@@ -19,6 +19,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class CurrentComponent implements OnInit, OnDestroy{
     user: FirebaseListObservable<any>;
     user_favourites: FirebaseListObservable<any>;
+    user_history: FirebaseListObservable<any>;
     name: any;
     username: string;
     uid: string;
@@ -45,6 +46,7 @@ export class CurrentComponent implements OnInit, OnDestroy{
     wd_currently_icon: string = "clear-day";
 
     favouriteCities: string[] = [];
+    searchHistory: string[] = [];
 
     // Location data
     current_lat: string;
@@ -83,11 +85,25 @@ export class CurrentComponent implements OnInit, OnDestroy{
         this.uid = this.name.facebook.uid;
 
         this.user_favourites = af.database.list('/users/' + this.uid + '/favourites/', { preserveSnapshot: true });
+        this.user_history = af.database.list('/users/' + this.uid + '/history/', {
+                                query: { 
+                                  limitToLast: 5,
+                               }, 
+                                preserveSnapshot: true 
+                            }
+        );
         
         this.user_favourites
             .subscribe(
               snapshots =>{ snapshots.forEach(snapshot => {
               if(this.favouriteCities.indexOf(snapshot.key) == -1) this.favouriteCities.push(snapshot.key);
+            });
+        })
+
+        this.user_history
+            .subscribe(
+              snapshots =>{ snapshots.forEach(snapshot => {
+              if(this.searchHistory.indexOf(snapshot.key) == -1) this.searchHistory.push(snapshot.key);
             });
         })
         
@@ -116,8 +132,35 @@ export class CurrentComponent implements OnInit, OnDestroy{
      this.setBusy();   
   }
 
-  getCoords(name: string){
-      this.newCityName.emit(name);
+  getCoords(name: string, flag: boolean){
+    //Capitalize words
+    if(flag) name = name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()});
+    
+    // Save serachHistory
+    if(this.searchHistory.indexOf(name) != -1){
+      this.searchHistory.splice(this.searchHistory.indexOf(name), 1);
+      this.af.database.object('/users/' + this.uid + '/history/' + name)
+      .remove();
+    }
+
+    if(this.searchHistory.length >= 5) {
+      console.log("History size greater than 5. Removing " + this.searchHistory[0]);
+      this.af.database.object('/users/' + this.uid + '/history/' + this.searchHistory[0])
+      .remove();
+      this.searchHistory.splice(0, 1);    
+      
+    }
+    
+    // Save in array
+    this.searchHistory.push(name);
+
+    // Save on cloud
+    this.af.database.object('/users/' + this.uid + '/history/' + name)
+      .set(Math.floor(Date.now() / 1000))
+
+    
+    // Emit event
+    this.newCityName.emit(name);
   }
 
   onChangeLocationFocus(){
@@ -176,14 +219,18 @@ export class CurrentComponent implements OnInit, OnDestroy{
       .remove()
       .then(_ => console.log('Favourite city deleted.'));
       
-      this.favouriteCities.splice(this.favouriteCities.indexOf(this.cityName));
+      this.favouriteCities.splice(this.favouriteCities.indexOf(this.cityName), 1);
   }
 
 
   favouriteSelected(index){
-    this.getCoords(this.favouriteCities[index]);
-
+    this.getCoords(this.favouriteCities[index], false);
   }
+
+  historySelected(index){
+    this.getCoords(this.searchHistory[index], false);
+  }
+
 
   // Spinner functions
   setBusy(){

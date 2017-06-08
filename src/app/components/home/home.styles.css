@@ -18,7 +18,7 @@
 
 .card {
   margin: 0px;
-  margin-left: 14px;
+  margin-left: 18px;
   margin-right: 14px;
   padding: 10px 16px 10px 16px;
   position: relative;
@@ -59,112 +59,73 @@
 }
 
 .card-2 {
-  background: rgba(255, 255, 255, 0.56);
-  transition: 1s all ease-in-out;
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .card-3 {
-  background: rgba(255, 255, 255, 0.49);
-}
-
-.card-4 {
-  background: rgba(255, 255, 255, 0.42);
-}
-
-.card-5 {
-  background: rgba(255, 255, 255, 0.35);
-}
-
-.card-6 {
-  background: rgba(255, 255, 255, 0.28);
-}
-
-.card-7 {
-  background: rgba(255, 255, 255, 0.21);
-}
-
-.card-8 {
-  background: rgba(255, 255, 255, 0.14);
-}
-
-.card-9 {
+  opacity: 0.7;
   background: rgba(255, 255, 255, 0.7);
 }
 
+.card-4 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.card-5 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.card-6 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.card-7 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.card-8 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.card-9 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .card-black {
+  opacity: 0.7;
   background: rgba(20, 25, 26, 0.9);
 }
 
 @media (min-width: 992px) {
-    /*.col-md-seperator:not(:last-child) {
+    .col-md-seperator:not(:last-child) {
         border-right: 2px solid rgba(40, 40, 49, 0.2);
     }
     .col-md-seperator + .col-md-seperator {
         border-left: 2px solid rgba(40, 40, 49, 0.2);
         margin-left: -2px;
-    }*/
+    }
 }
 
 .btn-solid{
-  background: rgba(240, 240, 240, 0.6);
+  background: rgba(240, 240, 240, 0.4);
   border: 0px;
   outline: 0px;
   color: #222;
   transition: 0.5s all ease-in;
-  margin-bottom: 6px;
+  margin: 6px;
   padding: 6px 12px 6px 12px;
+  cursor: pointer;
 }
 
 .btn-solid:hover{
   background: rgba(240, 240, 240, 0.9);
-}
-
-.dropdown-toggle{
-  background: rgba(240, 240, 240, 0.6);
-  border: 0px;
-  border-radius: 30px;
-  outline: 0px;
-  color: #222;
-  transition: 0.5s all ease-in;
-  margin-left: 16px;
-  padding: 0;
-  height: 20px;
-  width: 20px;
-}
-
-.caret{
-  margin-left: -4px; 
-  margin-top: -4px;
-}
-
-.dropdown-toggle:hover{
-  background: rgba(240, 240, 240, 1);
-}
-
-.dropdown-menu{
-  background-color: rgba(240, 240, 240, 0.94);
-  padding: 10px; 
-  border: 0 ;
-  border-radius: 0;
-}
-
-.dropdown-item{
-  padding: 4px;
-}
-
-.dropdown-header{
-  text-align: center;
-  border-bottom: 1px solid #554;
-}
-
-li{
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  max-width: 300px;
-
-  padding: 6px;
-  transition: 0.5s all ease-in-out;
 }
 
 .inp-solid{
@@ -177,6 +138,7 @@ li{
   padding: 6px 12px 6px 12px;
   width: 160px;
   box-shadow: 0 0 0 0 #000;
+  cursor: pointer;
 }
 
 .inp-solid:hover{
@@ -202,62 +164,4 @@ li{
 }
 :-moz-placeholder { /* Firefox 18- */
   color: rgba(60, 60, 60, 0.9);
-}
-
-.no-left-padding{
-    padding-left: 0;
-}
-.no-right-padding{
-    padding-right: 0;
-}
-
-.current-temperature{
-    color: #333;
-    opacity: 0.8;
-    font-size: 160px;
-    font-weight: 600;
-    margin-right: 40px;
-}
-
-.unit-temperature{
-    color: #333;
-    opacity: 0.48;
-    font-size: 80px;
-    font-weight: 500;
-}
-
-
-
-
-
-
-
-.no-padding{
-    padding-left: 0;
-    padding-right: 0;
-}
-
-.row{
-    width: 100%;
-}
-
-
-.container-full {
-  margin: 0 auto;
-  width: 100%;
-}
-
-.center-div{
-    width: auto;
-    position: relative;
-    margin: auto auto;
-}
-
-.faint{
-    opacity: 0.7;
-}
-
-.gutter{
-  margin-left: 5px;
-  margin-right: 5px;
 }

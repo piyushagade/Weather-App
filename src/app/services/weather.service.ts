@@ -8,8 +8,11 @@ export class WeatherService{
     api_key = "ae90bcca3fe03f309f261f05519b03f1"
     url_history = "https://api.darksky.net/forecast/" + this.api_key + "/**,**,**?callback=JSONP_CALLBACK";
     url_data = "https://api.darksky.net/forecast/" + this.api_key + "/**,**?callback=JSONP_CALLBACK";
-
+    
     constructor(private _jsonp: Jsonp){
+        // this.url_history = '';
+        // this.url_data = '';
+
     }
     
     getCurrentWeather(lat: string, lng: string){

@@ -65,12 +65,16 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <span *ngFor="let city of favouriteCities; let i = index"><li class="dropdown-item" (click)="favouriteSelected(i)"><a>{{ city }}</a></li></span>
+                                <li class="dropdown-header" *ngIf="searchHistory.length > 0">Search history</li>
+                                <span *ngFor="let history_city of searchHistory; let j = index"><li class="dropdown-item" (click)="historySelected(j)"><a>{{ history_city }}</a></li></span>
+                                
+                                <li class="dropdown-header">Saved locations</li>
+                                <span *ngFor="let favourite_city of favouriteCities; let i = index"><li class="dropdown-item" (click)="favouriteSelected(i)"><a>{{ favourite_city }}</a></li></span>
                             </ul>
                         </div>
 
                         <div class="row">
-                            <input type="text" class="inp-solid" style="margin-left: 10px;" [(ngModel)]='custom_city' #newLocation placeholder="Change location..." (blur)="onChangeLocationBlur()" (focus)="onChangeLocationFocus()" (keyup.enter)="getCoords(newLocation.value)"/>
+                            <input  autocomplete="on" type="text" class="inp-solid" style="margin-left: 10px;" [(ngModel)]='custom_city' #newLocation placeholder="Change location..." (blur)="onChangeLocationBlur()" (focus)="onChangeLocationFocus()" (keyup.enter)="getCoords(newLocation.value, true)"/>
                             <br/><span class="faint small center-div text-danger" *ngIf="showChangeLocationTip">Press 'Enter' to submit.</span>
                         </div>
                     </div>
