@@ -1,0 +1,123 @@
+.current-temperature{
+    color: #333;
+    opacity: 0.8;
+    font-size: 160px;
+    font-weight: 600;
+    margin-right: 40px;
+}
+
+.unit-temperature{
+    color: #333;
+    opacity: 0.48;
+    font-size: 80px;
+    font-weight: 500;
+}
+.current-location{
+    
+}
+
+
+
+
+#refl{
+  /* 
+    This is the 'correct' way to make the reflection,
+    using the element() background technique:
+    http://lea.verou.me/2011/06/css-reflections-for-firefox-with-moz-element-and-svg-masks/
+    Currently only works in moz though.
+  */
+
+  content: "";
+  display: block;
+  width: 800px;
+  height: 500px;
+  margin: 0 auto;
+  opacity: 0.1;
+  z-index: -1;
+  transform: translateY(-62px) scaleY(-1);
+  background: -moz-linear-gradient(bottom, 
+      rgba(255,255,255,1) 0%,
+      rgba(255,255,255,1) 5%,
+      rgba(255,255,255,0) 6%,
+      rgba(255,255,255,0) 45%,
+      rgba(255,255,255,1) 75%,
+      rgba(255,255,255,1) 100%),
+}
+
+#chart {
+  display: block;
+  margin: 0 auto;
+  /* 
+    This is the nonstandard way of making the reflection.
+    Only works in webkit (the other way doesnt work in webkit so use this instead)
+  */
+
+  -webkit-box-reflect: below -60px 
+    -webkit-gradient(linear, left bottom, left top, 
+      color-stop(0.00,  rgba(0,0,0,0)),
+      color-stop(0.05,  rgba(0,0,0,0)),
+      color-stop(0.06,  rgba(0,0,0,0.1)),
+      color-stop(0.45,  rgba(0,0,0,0.1)),
+      color-stop(0.75,  rgba(0,0,0,0)),
+      color-stop(1.00,  rgba(0,0,0,0)));
+}
+.x.axis g:first-of-type, .x.axis g:last-of-type {
+  display: none;
+}
+.axis line, .axis path {
+  fill: none;
+  stroke: rgba(236, 60, 12, 0.6);
+  shape-rendering: crispEdges;
+}
+.axis path.domain {
+  stroke: none;
+}
+.axis text {
+  fill: #8C807D;
+  font-size: 1em;
+  font-weight: 300;
+}
+.line {
+  fill: none;
+  stroke-width: 1px;
+  stroke: rgba(236, 60, 12, 0.6);
+}
+.line.done {
+  stroke: none;
+}
+.area {
+  stroke-width: 0px;
+}
+.area1 {
+  fill: rgba(245, 166, 189, 0.6);
+}
+.area2 {
+  fill: rgba(236, 60, 12, 0.6);
+}
+.basline {
+  stroke-width: 10px;
+} 
+.area1Baseline {
+  stroke: rgba(245, 166, 189, 0.6);
+}
+.area2Baseline {
+  stroke: rgba(236, 60, 12, 0.6);
+}
+.axis line {
+  transition: opacity 0.5s;
+}
+.axis.done line {
+  opacity: 0;
+}
+
+#dribbble {
+  position: fixed;
+  bottom: 1em;
+  width: 100%;
+  font-family: 'Rambla', sans-serif;
+  font-size: 2em;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: rgba(236, 60, 12, 0.6);
+}

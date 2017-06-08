@@ -1,0 +1,165 @@
+
+.text-button{
+    margin: 10px;
+    padding: 6px;
+    color: #eee;
+    opacity: 0.8;
+    transition: 1s all ease-in-out;
+    border-top: 1px solid rgba(230, 230, 230, 0);
+    outline: 0px;
+}
+
+.text-button:hover{
+    color: #eee;
+    opacity: 0.99;
+    border-top: 1px solid rgba(230, 230, 230, 255);
+}
+
+
+.card {
+  margin: 0px;
+  margin-left: 18px;
+  margin-right: 14px;
+  padding: 10px 16px 10px 16px;
+  position: relative;
+  border: 0;
+  width: 100%;
+  border-radius: 0;
+}
+
+
+.card-no-margin {
+  margin: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding: 10px 16px 10px 16px;
+  position: relative;
+  border: 0;
+  /*width: 100%;*/
+  border-radius: 0;
+}
+
+
+.card:first-child {
+  margin-top: 16px;
+}
+.card:last-child {
+  margin-bottom: 16px;
+}
+
+.card-normal {
+  margin: 0px;
+  margin-left: 18px;
+  margin-right: 14px;
+  padding: 10px 16px 10px 16px;
+  position: relative;
+  border: 0;
+  width: 100%;
+  border-radius: 0;
+}
+
+.card-2 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.card-3 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.card-4 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.card-5 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.card-6 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.card-7 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.card-8 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.card-9 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.card-black {
+  opacity: 0.7;
+  background: rgba(20, 25, 26, 0.9);
+}
+
+@media (min-width: 992px) {
+    .col-md-seperator:not(:last-child) {
+        border-right: 2px solid rgba(40, 40, 49, 0.2);
+    }
+    .col-md-seperator + .col-md-seperator {
+        border-left: 2px solid rgba(40, 40, 49, 0.2);
+        margin-left: -2px;
+    }
+}
+
+.btn-solid{
+  background: rgba(240, 240, 240, 0.4);
+  border: 0px;
+  outline: 0px;
+  color: #222;
+  transition: 0.5s all ease-in;
+  margin: 6px;
+  padding: 6px 12px 6px 12px;
+}
+
+.btn-solid:hover{
+  background: rgba(240, 240, 240, 0.9);
+}
+
+.inp-solid{
+  background: rgba(250, 250, 250, 0.36);
+  border: 0px;
+  outline: 0px;
+  color: #222;
+  transition: 0.5s all ease-in;
+  margin: 6px;
+  padding: 6px 12px 6px 12px;
+  width: 160px;
+  box-shadow: 0 0 0 0 #000;
+}
+
+.inp-solid:hover{
+  background: rgba(240, 240, 240, 0.9);
+  width: 80%;
+  box-shadow: 0 0 0 0 #000;
+}
+
+.inp-solid:focus{
+  background: rgba(240, 240, 240, 0.9);
+  width: 80%;
+  box-shadow: 0 0 0 0 #000;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: rgba(60, 60, 60, 0.9);
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: rgba(60, 60, 60, 0.9);
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: rgba(60, 60, 60, 0.9);
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: rgba(60, 60, 60, 0.9);
+}

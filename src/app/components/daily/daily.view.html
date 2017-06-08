@@ -1,0 +1,33 @@
+<div class="container">
+    <br>
+    <div class="row test">
+        <div class="col-sm-4 col-md-2 card-no-margin card-black">
+                <div  style="width: auto; text-align: center; font-weight: 1000; font-size: 56px; color: #ddd; opacity: 0.6; margin: -10px;">
+                >
+                </div><br/>
+            <span  style="width: auto; text-align: center; font-weight: 800; color: #ddd;">
+                Weather this week
+                </span>
+        </div>
+        <div *ngFor="let day of wd_daily.data" class="col-sm-4 col-md-2 card-no-margin card-4">
+            <div  style="width: auto; text-align: center; margin-top: -50px;">
+                <i *ngIf="day.icon === 'partly-cloudy-day'" class="wi wi-day-sunny-overcast" style="transform: scale(3); margin-top: 80px; margin-bottom: 20px;"></i>
+                <i *ngIf="day.icon === 'partly-cloudy-night'" class="wi wi-night-alt-cloudy" style="transform: scale(3); margin-top: 80px; margin-bottom: 20px;"></i>
+                <i *ngIf="day.icon === 'rain'" class="wi wi-rain test" style="transform: scale(3); margin-top: 80px; margin-bottom: 20px;"></i>
+                <i *ngIf="day.icon === 'clear-day'" class="wi wi-day-sunny" style="transform: scale(3); margin-top: 80px; margin-bottom: 20px;"></i>
+                <i *ngIf="day.icon === 'clear-night'" class="wi wi-night-clear" style="transform: scale(3); margin-top: 80px; margin-bottom: 20px;"></i>
+                <i *ngIf="day.icon === 'fog'" class="wi wi-fog" style="transform: scale(3); margin-top: 80px; margin-bottom: 20px;"></i>
+                <i *ngIf="day.icon === 'sleet'" class="wi sleet" style="transform: scale(3); margin-top: 80px; margin-bottom: 20px;"></i>
+                <i *ngIf="day.icon === 'wind'" class="wi wi-strong-wind" style="transform: scale(3); margin-top: 80px; margin-bottom: 20px;"></i>
+                <i *ngIf="day.icon === 'snow'" class="wi wi-snowflake-cold" style="transform: scale(3); margin-top: 80px; margin-bottom: 20px;"></i>
+                <i *ngIf="day.icon === 'cloudy'" class="wi wi-cloud" style="transform: scale(3); margin-top: 80px; margin-bottom: 20px;"></i>
+                <br>{{ day.time * 1000 | date: 'EEEE' }}<br>
+                <span class="small"><strong>{{ day.summary }}</strong> </span><br/>
+                <span class="small"><strong>Min:</strong> {{ day.temperatureMin }}</span>,
+                <span class="small"><strong>Max:</strong> {{ day.temperatureMax }}</span>
+                </div>
+        </div>
+        
+    </div>
+
+</div>

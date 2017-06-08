@@ -1,0 +1,115 @@
+<div class="container">
+    <div class="row"> 
+        <!--<div class="col-sm-0 col-md-0 col-lg-1 test">
+        </div>-->
+
+        <!--Temperature and Icon column-->
+        <div class="col-sm-12 col-md-12 col-lg-6 col-md-seperator no-left-padding test">
+            <div class="center-div card-no-margin card-2 test">
+                <div style="width: auto; text-align: center; margin-top: -50px;">
+                    <i class="wi wi-day-sunny-overcast" style="transform: scale(6); margin-top: 120px; margin-bottom: 40px;"></i>
+                </div>
+            </div>
+            
+            
+            <div class="center-div card-no-margin card-3 test">
+                    <div style="width: auto; text-align: center; margin-top: -50px;">
+                        <span class="current-temperature">{{ wd_current_temperature }}</span>
+                        <span class="unit-temperature">F</span>
+                    </div>
+            </div>
+            
+            <div class="center-div test">
+                <div class="card-no-margin card-4" style="margin-top: 30px;">
+                    <span>
+                        Welcome to SkyCast weather app. See real-time weather for any location on Earth. Once you login, you can store search history and mark places as favourite.
+                    </span>
+                </div>
+                <div class="card-no-margin card-6"> 
+                    <button class="text-button" (click)="logout()" *ngIf="loggedIn">Logout</button>
+                    <button class="text-button" (click)="login()" *ngIf="!loggedIn">Login</button>
+                    <button *ngIf="loggedIn">Logged in as {{username}}.</button>
+                </div>
+            </div>
+
+            
+        </div>
+
+        <!--Other information coloumn-->
+        <div class="col-sm-12 col-md-12 col-lg-6 test no-right-padding">
+                <div class="col-sm-12 col-md-12 col-lg-12 no-right-padding no-left-padding">
+                    
+                    <div class="card-no-margin card-2"> 
+                        <span class="small">Location: <i class="medium material-icons test" style="float: right;" (click)="goToMyLocation()">my_location</i></span>
+                        {{ cityName }}
+                        <div class="row" *ngIf="loggedIn">
+                            <button class="btn-solid" style="margin-left: 10px;" (click)="saveLocation()">Save this location</button>
+                        </div>
+                        <div class="row">
+                            <input type="text" class="inp-solid" style="margin-left: 10px;" [(ngModel)]='custom_city' #newLocation placeholder="Change location..." (blur)="onChangeLocationBlur()" (focus)="onChangeLocationFocus()" (keyup.enter)="getCoords(newLocation.value)"/>
+                            <br/><span class="small center-div text-danger" *ngIf="showChangeLocationTip">Press 'Enter' to submit.</span>
+                        </div>
+                    </div>
+
+                    <div class="card-no-margin card-3"> 
+                        <span class="small">Right now:</span><br>
+                        <span> {{ wd_currently.summary }}</span>
+                    </div>
+
+                    <div class="card-no-margin card-4"> 
+                        <span class="small">In few hours:</span><br>
+                        {{ wd_hourly.summary }}
+                    </div>
+                    
+                    <div class="card-no-margin card-5"> 
+                        <span class="small">This week:</span><br>
+                        {{ wd_daily.summary }}
+                    </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-4 col-md-4 col-lg-4 no-padding">
+                    <div class="card card-3"> 
+                        <span class="small">Humidity:</span>
+                        {{ wd_currently.humidity }} %
+                    </div>
+                    
+                    <div class="card card-4"> 
+                        <span class="small">Wind speed:</span>
+                        {{ wd_currently.windSpeed }} mph
+                    </div>
+                    
+                    <div class="card card-5"> 
+                        <span class="small">Visibility:</span>
+                        {{ wd_currently.visibility }} / 10
+                    </div>
+                </div>
+
+                <div class="col-sm-8 col-md-8 col-lg-8 no-padding">
+                    <div class="card card-6"> 
+                        <span class="small">Cloud cover:</span>
+                        {{ wd_currently.cloudCover }} %
+                    </div>
+                    
+                    <div class="card card-7"> 
+                        <span class="small">Timezone:</span>
+                        {{ wd_timezone }}
+                    </div>
+                    
+                    <div class="card card-8"> 
+                        <span class="small">Current time:</span>
+                        {{ wd_currently.time * 1000 | date: 'medium' }} <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--row 2-->
+    <!--<div class="row">   
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <span class="current-location">at {{ cityName }}</span>
+        </div>
+    </div>-->
+
+</div>

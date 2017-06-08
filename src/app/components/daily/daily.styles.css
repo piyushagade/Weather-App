@@ -1,0 +1,138 @@
+.tip{
+    position: absolute;
+    bottom: 150px;
+    left: 46%;
+    padding: 6px 10px 6px 10px;
+    background-color: rgba(240, 240, 240, 0.5);
+    width: auto;
+    height: auto;
+    box-shadow: 2px 2px 10px rgba(40, 40, 40, 0.5);
+}
+
+.text-button{
+    margin: 10px;
+    padding: 6px;
+    color: #eee;
+    opacity: 0.8;
+    transition: 1s all ease-in-out;
+    border-top: 1px solid rgba(230, 230, 230, 0);
+    outline: 0px;
+}
+
+.text-button:hover{
+    color: #eee;
+    opacity: 0.99;
+    border-top: 1px solid rgba(230, 230, 230, 255);
+}
+
+
+.card-weather-icons {
+  margin: 0px;
+  margin-left: 0px;
+  margin-right: 00px;
+  padding: 10px 16px 10px 16px;
+  position: relative;
+  border: 0;
+  width: 100%;
+  border-radius: 0;
+}
+
+
+.card-no-margin {
+  margin: 0px;
+  margin-left: 0px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  padding: 10px 16px 10px 16px;
+  position: relative;
+  border: 0;
+  width: 100%;
+  border-radius: 0;
+}
+
+
+.card:first-child {
+  margin-top: 16px;
+}
+.card:last-child {
+  margin-bottom: 16px;
+}
+
+
+
+.card-weather-icons:first-child {
+  margin-left: 10px;
+  opacity: 0;
+}
+
+.card-normal {
+  margin: 0px;
+  margin-left: 18px;
+  margin-right: 14px;
+  padding: 10px 16px 10px 16px;
+  position: relative;
+  border: 0;
+  width: 100%;
+  border-radius: 0;
+}
+
+.card-2 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.card-3 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.card-4 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.card-5 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.card-6 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.card-7 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.card-8 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.card-9 {
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.card-black {
+  opacity: 0.7;
+  background: rgba(20, 25, 26, 0.9);
+  color: #eee;
+}
+
+
+.btn-solid{
+  background: rgba(240, 240, 240, 0.4);
+  border: 0px;
+  outline: 0px;
+  color: #222;
+  transition: 0.5s all ease-in;
+  margin: 6px;
+  padding: 6px 12px 6px 12px;
+}
+
+.btn-solid:hover{
+  background: rgba(240, 240, 240, 0.9);
+}

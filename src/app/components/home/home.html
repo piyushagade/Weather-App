@@ -1,0 +1,47 @@
+<body>
+    <div class="bramhan">
+        <div id="gradient" class="gradient"></div>
+
+        <div class="spinner" *ngIf="isBusy">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+
+        <div class="transition"></div>
+
+
+        <div class="galaxy">
+            <div class="container-fluid">
+                <!--Top menu-->
+                <div class="row">
+                        
+                </div>
+            </div>
+
+            <!--Current component was here-->
+            <sc-current
+                [weatherData]="weatherData"
+                (weatherReceived)="getWeatherData($event)"
+                (newCityName)="getCoords($event)"
+                (goToMyLocationEvent)="goToMyLocation()"
+                (isBusyEvent)="spinnerFunction()">
+            </sc-current>
+
+            
+            <!--Hourly-->
+            <sc-hourly
+                >
+            </sc-hourly>
+
+
+
+
+            
+            <!--Daily-->
+            <sc-daily>
+            </sc-daily>
+
+        </div>
+
+    </div>
+</body>

@@ -1,0 +1,54 @@
+<div class="container">
+    <br>
+    <div class="row test">
+        <!--<template *ngFor="let day of wd_hourly.data; let i = index;">
+            <div *ngIf="i%3 == 0" class="col-sm-4 col-md-2 card-no-margin card-4" style="margin: 10px; margin-right: 0; margin-top: 0; margin-bottom: 10px;">
+                <div  style="width: auto; text-align: center; margin-top: -50px;">
+                    <i class="wi wi-day-sunny-overcast" style="transform: scale(3); margin-top: 80px; margin-bottom: 20px;"></i><br>
+                    Monday<br>
+                    <span class="small">12 F</span>
+                </div>
+            </div>
+        </template>-->
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12 card-no-margin card-black test">
+                Hourly forecast
+            </div>
+
+            
+                <!--<div *ngFor="let icon of barChartIcons; let i = index" class="col-xs-0 col-sm-0 col-md-1 card-weather-icons card-4 test" style="height: auto;">
+                    <span *ngIf="i > 0">
+                        <i *ngIf="icon === 'partly-cloudy-day'" class="wi wi-day-sunny-overcast" style="transform: scale(2); margin-top: 20px; margin-left: 8px; margin-bottom: 10px;"></i>
+                        <i *ngIf="icon === 'partly-cloudy-night'" class="wi wi-night-alt-cloudy" style="transform: scale(2); margin-left: 8px;  margin-top: 20px; margin-bottom: 10px;"></i>
+                        <i *ngIf="icon === 'rain'" class="wi wi-rain test" style="transform: scale(2); margin-top: 20px; margin-left: 8px;  margin-bottom: 10px;"></i>
+                        <i *ngIf="icon === 'clear-day'" class="wi wi-day-sunny" style="transform: scale(2); margin-top: 20px;  margin-left: 8px;margin-bottom: 10px;"></i>
+                        <i *ngIf="icon === 'clear-night'" class="wi wi-night-clear" style="transform: scale(2); margin-top: 20px;  margin-left: 8px;  margin-bottom: 10px;"></i>
+                        <i *ngIf="icon === 'fog'" class="wi wi-fog" style="transform: scale(2); margin-top: 20px; margin-left: 8px;  margin-bottom: 10px;"></i>
+                        <i *ngIf="icon === 'sleet'" class="wi sleet" style="transform: scale(2); margin-top: 20px; margin-left: 8px;  margin-bottom: 10px;"></i>
+                        <i *ngIf="icon === 'wind'" class="wi wi-strong-wind" style="transform: scale(2); margin-top: 20px; margin-left: 8px;  margin-bottom: 10px;"></i>
+                        <i *ngIf="icon === 'snow'" class="wi wi-snowflake-cold" style="transform: scale(2); margin-top: 20px; margin-left: 8px;  margin-bottom: 10px;"></i>
+                        <i *ngIf="icon === 'cloudy'" class="wi wi-cloud" style="transform: scale(2); margin-top: 20px; margin-left: 8px;  margin-bottom: 10px;"></i>
+                        <br/><span class="small div-center">{{ wd_hourly.data[i].summary }}</span>
+                    </span>
+                </div>-->
+
+            <div class="col-sm-12 col-md-12 card-no-margin card-4 test">
+                <div style="display: block;">
+                    <canvas baseChart height="100"
+                        [datasets]="barChartData"
+                        [labels]="barChartLabels"
+                        [options]="barChartOptions"
+                        [legend]="barChartLegend"
+                        [colors]="lineChartColors"
+                        [chartType]="barChartType"
+                        (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
