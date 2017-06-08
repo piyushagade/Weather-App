@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, animate, style, state, transition, trigger } from '@angular/core';
 
 import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable } from 'angularfire2';
 
@@ -10,23 +10,32 @@ import * as $ from 'jquery';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.html',
+  templateUrl: './home.view.html',
   styleUrls: [
     '../../../assets/css/main.css',
     '../../../assets/css/spinner.css',
-    '../../../assets/css/custom_components.css',
-    '../../../assets/css/data.css',
-    '../../../assets/css/icons.css'
+    './home.styles.css'
   ],
-  providers: [ GeolocationService, WeatherService, GeocoderService, SharerService ]
+  providers: [ GeolocationService, WeatherService, GeocoderService, SharerService ],
+  animations: [
+    trigger("fadeInOut", [
+      state("open", style({opacity: 1})),
+      state("closed", style({opacity: 0})),
+      transition("open => closed", animate( "1200ms" )),
+      transition("closed => open", animate( "400ms" )),
+    ])
+  ],
 })
 
 export class HomeComponent {
-  isBusy: boolean = false;
+  isBusy: boolean = true;
   showChangeLocationTip = false;
   items;
   message: string;
   custom_city = "";
+
+  weatherLoaded = false;
+
 
   // Weather information
   weatherData: any;
@@ -75,6 +84,7 @@ export class HomeComponent {
                    this.getCityName(this.current_lat, this.current_lng);
 
                    // Get weather data for current coordinates
+                  this.weatherLoaded = false;
                   this._ws.getCurrentWeather(this.current_lat, this.current_lng)
                     .subscribe(
                       response => this.weatherData = response,
@@ -108,8 +118,7 @@ export class HomeComponent {
   getCityName(lat: string, long: string){
     this._gc.getCityName(lat, long).subscribe(
       response => this.onGetCityName(response),
-      error => this.setIdle(),
-      () => this.setIdle()
+      error => console.log("Couldn't get city name.")
     );
   }
 
@@ -129,8 +138,7 @@ export class HomeComponent {
     // Get the coordinates
     this._gc.getCoords(name).subscribe(
       response => this.getWeatherCustomLocation(name, response.results[0].geometry.location.lat, response.results[0].geometry.location.lng),
-        error => this.setIdle(),
-      () => this.setIdle() 
+      error => console.log("Couldn't get coordinates.")
     )
   }
 
@@ -163,6 +171,9 @@ export class HomeComponent {
 
   // Set variables when new weather data is acquired
   onWeatherGet(){
+    // Set idle
+    this.setIdle();
+
     this.weatherData = this.weatherData._body;
     this.wd_timezone = this.weatherData.timezone.replace(/_/g," ");
 
@@ -206,11 +217,15 @@ export class HomeComponent {
   }
 
   setBusy(){
+    this.weatherLoaded = false;
     this.isBusy = true;
   }
 
   setIdle(){
     this.isBusy = false;
+    setTimeout(function() {
+      this.weatherLoaded = true;
+    }.bind(this), 1400);
   }
 
   // Chart

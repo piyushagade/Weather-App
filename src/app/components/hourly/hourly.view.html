@@ -14,7 +14,6 @@
         <div class="row">
             <div class="col-sm-12 col-md-12 card-no-margin card-black test">
                 <a class="btn-solid-dark" [ngClass]='{"active": mode === "hourly"}' (click)="changeMode('hourly')">Next 12 hours</a>
-                <a class="btn-solid-dark" [ngClass]='{"active": mode === "today"}' (click)="changeMode('today')">Today's stats</a>
                 <a class="btn-solid-dark" [ngClass]='{"active": mode === "history"}' (click)="changeMode('history')">History</a>
 
                 <div class="dropdown" style="float: right;">

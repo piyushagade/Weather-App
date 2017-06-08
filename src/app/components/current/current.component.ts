@@ -42,6 +42,9 @@ export class CurrentComponent implements OnInit, OnDestroy{
     wd_daily: any = [];
     wd_timezone: string;
     wd_icon: string;
+    wd_weatherData_1hr = [];
+    wd_weatherData_3hr = [];
+    wd_weatherData_9hr = [];
 
     wd_currently_icon: string = "clear-day";
 
@@ -107,7 +110,7 @@ export class CurrentComponent implements OnInit, OnDestroy{
             });
         })
         
-        this.setIdle();  
+        this.setIdle(); 
       }
       else{
         this.loggedIn = false;
@@ -191,6 +194,23 @@ export class CurrentComponent implements OnInit, OnDestroy{
     this.wd_daily = this.weatherData.daily;
 
     this.wd_currently_icon = this.weatherData.currently.icon.trim();
+
+    for(let i = 0; i < this.wd_hourly.data.length; i++){
+      let target_1 = this.wd_hourly.data[0].time + 3600;
+      let target_3 = this.wd_hourly.data[0].time + 3600 * 3;
+      let target_9 = this.wd_hourly.data[0].time + 3600 * 9;
+      
+      if(this.wd_hourly.data[i].time === target_1) {
+        this.wd_weatherData_1hr = this.wd_hourly.data[i];
+      }
+      if(this.wd_hourly.data[i].time === target_3) {
+        this.wd_weatherData_3hr = this.wd_hourly.data[i];
+      }
+      if(this.wd_hourly.data[i].time === target_9) {
+        this.wd_weatherData_9hr = this.wd_hourly.data[i];
+      }
+      
+    }
 
     // Format current temperature
     this.wd_current_temperature = this.wd_currently.temperature.toString().split(".")[0];

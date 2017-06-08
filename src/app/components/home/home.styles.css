@@ -165,3 +165,14 @@
 :-moz-placeholder { /* Firefox 18- */
   color: rgba(60, 60, 60, 0.9);
 }
+
+
+
+.step{
+  opacity: 0;
+  transition: 6s ease-in-out opacity;
+}
+
+.show{
+  opacity: 1 !important;
+}
