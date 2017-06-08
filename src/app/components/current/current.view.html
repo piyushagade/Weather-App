@@ -114,7 +114,7 @@
                     <div class="card-no-margin card-2" style="z-index: 10;"> 
                         <span class="faint small">
                             Location:
-                            <i class="medium material-icons test" style="float: right; margin-left: 12px;" (click)="goToMyLocation()">my_location</i>
+                            <i *ngIf="locationDenied" class="medium material-icons test" style="float: right; margin-left: 12px;" (click)="goToMyLocation()">my_location</i>
                             <i class="medium material-icons test" style="float: right; margin-left: 12px;" *ngIf="loggedIn && favouriteCities.indexOf(cityName) == -1" (click)="saveLocation()">favorite_border</i>
                             <i class="medium material-icons test" style="float: right; margin-left: 12px;" *ngIf="loggedIn && favouriteCities.indexOf(cityName) > -1" (click)="removeLocation()">favorite</i>
                         </span><br/>
@@ -158,7 +158,7 @@
                 <div class="col-sm-4 col-md-4 col-lg-4 no-padding">
                     <div class="card card-3"> 
                         <span class="small">Humidity:</span>
-                        {{ wd_currently.humidity }} %
+                        {{ wd_currently.humidity * 100 }} %
                     </div>
                     
                     <div class="card card-4"> 
@@ -175,7 +175,7 @@
                 <div class="col-sm-8 col-md-8 col-lg-8 no-padding">
                     <div class="card card-6"> 
                         <span class="small">Cloud cover:</span>
-                        {{ wd_currently.cloudCover }} %
+                        {{ wd_currently.cloudCover * 100 }} %
                     </div>
                     
                     <div class="card card-7"> 
@@ -185,7 +185,7 @@
                     
                     <div class="card card-8"> 
                         <span class="small">Current time:</span>
-                        {{ wd_currently.time * 1000 | date: 'medium' }} <br>
+                        {{ (wd_currently.time + wd_timezone_offset * 3600) * 1000 | date: 'medium' }} <br>
                     </div>
                 </div>
             </div>

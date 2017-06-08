@@ -35,6 +35,7 @@ export class HomeComponent {
   custom_city = "";
 
   weatherLoaded = false;
+  locationDenied: boolean = false;
 
 
   // Weather information
@@ -73,6 +74,7 @@ export class HomeComponent {
     });
 
     // Get current coordinates using Geolocation API
+    this.isBusy = true;
     this._gl.getCurrentPosition().forEach(
                 (position: Position) => {
                    // Get the name of the place using Google's geocoder API
@@ -92,7 +94,7 @@ export class HomeComponent {
                       () => this.onWeatherGet()
                     );   
 
-                  
+                    
                 }
             )
             .then(() => console.log('Coordinates acquired.'))
@@ -101,7 +103,8 @@ export class HomeComponent {
                     if (error.code > 0) {
                         switch (error.code) {
                             case error.PERMISSION_DENIED:
-                                this.message = 'permission denied';
+                                console.log("Location denied");
+                                this.onLocationDeny();
                                 break;
                             case error.POSITION_UNAVAILABLE:
                                 this.message = 'position unavailable';
@@ -112,6 +115,7 @@ export class HomeComponent {
                         }
                     }
                 });
+                  
   }
 
   // Get city name from coordinates acquired in the constructor
@@ -202,6 +206,11 @@ export class HomeComponent {
               () => this.onWeatherHistoryGet()
             );
       }
+  }
+
+  onLocationDeny(){
+    this.locationDenied = true;
+    this.getCoords('New Delhi');
   }
 
   onWeatherHistoryGet(){    

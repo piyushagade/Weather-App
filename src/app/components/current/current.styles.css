@@ -1,5 +1,5 @@
 .test{
-    border: 1px solid #f00;
+    border: 0px solid #f00;
 }
 
 .text-button{
@@ -228,11 +228,6 @@ li{
     font-size: 80px;
     font-weight: 500;
 }
-
-
-
-
-
 
 
 .no-padding{

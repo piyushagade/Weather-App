@@ -41,6 +41,7 @@ export class CurrentComponent implements OnInit, OnDestroy{
     wd_hourly: any = [];
     wd_daily: any = [];
     wd_timezone: string;
+    wd_timezone_offset: number;
     wd_icon: string;
     wd_weatherData_1hr = [];
     wd_weatherData_3hr = [];
@@ -188,6 +189,7 @@ export class CurrentComponent implements OnInit, OnDestroy{
   onWeatherGet(res){
     this.weatherData = res;
     this.wd_timezone = this.weatherData.timezone.replace(/_/g," ");
+    this.wd_timezone_offset = parseInt(this.weatherData.offset);
 
     this.wd_currently = this.weatherData.currently;
     this.wd_hourly = this.weatherData.hourly;
