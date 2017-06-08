@@ -33,34 +33,8 @@ var gradientSpeed = 0.002;
 
 function updateGradient()
 {
-  var current_weather = $('#current-weather').text();
-  current_weather = current_weather.toLowerCase().trim();
 
-  if(current_weather === 'partly-cloudy-day'){
-    var colors = new Array(
-      [117, 174, 244],
-      [21,114,148],
-      [81, 112, 123],
-      [186, 220, 220]
-    );
-  }
-  else if(current_weather === 'partly-cloudy-night' || current_weather === 'clear-night' ){
-    var colors = new Array(
-      [31, 41, 64],
-      [21, 42, 90],
-      [2, 11, 32],
-      [20, 27, 34]
-    );
-  }
-
-  else{
-    var colors = new Array(
-      [255,196,0],
-      [255,224,130],
-      [255,111,0],
-      [255,248,225]
-      );
-  }
+  colors = updateColors();
 
   
   if ( $ === undefined ) return;
@@ -100,4 +74,52 @@ var color2 = "rgb("+r2+","+g2+","+b2+")";
   }
 }
 
-setInterval(updateGradient,80); //change number to increase/decrease speed
+setInterval(updateGradient, 60); //change number to increase/decrease speed
+
+function updateColors(){
+  var current_weather = $('#current-weather').text().trim();
+  current_weather = current_weather.toLowerCase();
+
+  if(current_weather === 'partly-cloudy-day' ){
+    var colors = new Array(
+      [117, 174, 244],
+      [21,114,148],
+      [81, 112, 123],
+      [186, 220, 220]
+    );
+  }
+  else if(current_weather === 'partly-cloudy-night' || current_weather === 'clear-night' ){
+    var colors = new Array(
+      [31, 41, 64],
+      [21, 42, 90],
+      [2, 11, 32],
+      [20, 27, 34]
+    );
+  }
+  else if(current_weather === 'rain' ){
+    var colors = new Array(
+      [0, 105, 128],
+      [77, 100, 118],
+      [49, 152, 232],
+      [5, 31, 36]
+    );
+  }
+  else if(current_weather === 'snow' || current_weather === 'sleet' || current_weather === 'fog' || current_weather === 'cloudy'){
+    var colors = new Array(
+      [31, 41, 64],
+      [21, 42, 90],
+      [2, 11, 32],
+      [20, 27, 34]
+    );
+  }
+  else{
+    var colors = new Array(
+      [255,196,0],
+      [169,135,34],
+      [255,111,0],
+      [224, 197, 48]
+      );
+  }
+
+  return colors;
+}
