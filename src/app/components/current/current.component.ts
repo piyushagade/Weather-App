@@ -131,7 +131,7 @@ export class CurrentComponent implements OnInit, OnDestroy{
   ngOnInit() {
     this.subscription = this._s.notifyObservable$.subscribe((res) => {
         if (res.hasOwnProperty('currently')) this.onWeatherGet(res);
-        else  this.onCityNameGet(res);
+        else if (!res[0].hasOwnProperty('time')) this.onCityNameGet(res);
     });
   }
 

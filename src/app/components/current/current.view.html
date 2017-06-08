@@ -35,9 +35,11 @@
                     </span>
                 </div>
                 <div class="card-no-margin card-6"> 
-                    <button class="text-button" (click)="logout()" *ngIf="loggedIn">Logout</button>
-                    <button class="text-button" (click)="login()" *ngIf="!loggedIn">Login</button>
-                    <button *ngIf="loggedIn">Logged in as {{username}}.</button>
+                    <p *ngIf="loggedIn">Hey there {{username}}. <br/>
+                    Now that you are logged-in, you can now save your favourite cities using <i class="small material-icons test" style="padding-top: 2px;">favorite</i> button, and remove the city from the list by clicking on the button again. To see the weather at your location, click on <i class="small material-icons test" style="padding-top: 2px;">my_location</i>.</p>
+                    <p *ngIf="!loggedIn">Login to access more features. Its free to use and free of ads. Forever.</p>
+                    <button class="btn-solid" (click)="logout()" *ngIf="loggedIn">Logout</button>
+                    <button class="btn-solid"  (click)="login()" *ngIf="!loggedIn">Login w/ Facebook</button>
                 </div>
             </div>
 

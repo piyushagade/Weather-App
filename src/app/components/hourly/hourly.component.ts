@@ -10,11 +10,8 @@ import { Subscription } from 'rxjs/Subscription';
     selector: 'sc-hourly',
     templateUrl: './hourly.view.html',
     styleUrls: [
-        '../../../assets/css/main.css',
-        '../../../assets/css/spinner.css',
-        '../../../assets/css/data.css',
-        '../../../assets/css/icons.css',
-        './hourly.styles.css'
+        './hourly.styles.css',
+        '../../../assets/css/main.css'
     ],
     providers: [ GeolocationService, WeatherService, GeocoderService ]
 })
@@ -23,6 +20,8 @@ import { Subscription } from 'rxjs/Subscription';
 export class HourlyComponent implements OnInit, OnDestroy{
     // Weather information
     @Input() weatherData;
+    @Input() weatherHistory;
+    
     cityName: string;
     wd_current_temperature: string = "";
     wd_currently: any = [];
@@ -37,11 +36,44 @@ export class HourlyComponent implements OnInit, OnDestroy{
         {data: [], label: 'Hourly forecast'},
     ];
 
+    barChartData_temperature: any[] = [
+        {data: [], label: 'Hourly'},
+    ];
+    barChartData_humidity: any[] = [
+        {data: [], label: 'Hourly'},
+    ];
+    barChartData_windSpeed: any[] = [
+        {data: [], label: 'Hourly'},
+    ];
+    barChartData_pressure: any[] = [
+        {data: [], label: 'Hourly'},
+    ];
+
+    historyChartData: any[] = [
+        {data: [], label: 'History'},
+    ];
+
+    historyChartLabels: any[] = [];
+
+    historyChartData_temperature: any[] = [
+        {data: [], label: 'History'},
+    ];
+    historyChartData_humidity: any[] = [
+        {data: [], label: 'History'},
+    ];
+    historyChartData_windSpeed: any[] = [
+        {data: [], label: 'History'},
+    ];
+    historyChartData_pressure: any[] = [
+        {data: [], label: 'History'},
+    ];
+
     barChartIcons = [];
 
     private subscription: Subscription;
 
-    tipData: string;
+    mode: string = "hourly";
+    metric: string = "temperature";
 
 
   constructor(private _s: SharerService) {
@@ -51,6 +83,7 @@ export class HourlyComponent implements OnInit, OnDestroy{
   ngOnInit() {
     this.subscription = this._s.notifyObservable$.subscribe((res) => {
         if (res.hasOwnProperty('currently')) this.onWeatherGet(res);
+        else if (res[0].hasOwnProperty('time')) this.onWeatherHistoryGet(res);
     });
   }
 
@@ -79,14 +112,37 @@ export class HourlyComponent implements OnInit, OnDestroy{
         if(this.maxTemperature < parseInt(this.wd_hourly.data[j].temperature)) this.maxTemperature = parseInt(this.wd_hourly.data[j].temperature);
     }
 
-    let _newChartData:Array<any> = new Array(this.barChartData.length);
+    let _newChartData_temperature:Array<any> = new Array(this.barChartData.length);
+    let _newChartData_humidity:Array<any> = new Array(this.barChartData.length);
+    let _newChartData_windSpeed:Array<any> = new Array(this.barChartData.length);
+    let _newChartData_pressure:Array<any> = new Array(this.barChartData.length);
+
     for (let i = 0; i < this.barChartData.length; i++) {
-      _newChartData[i] = {data: new Array(this.barChartData[i].data.length), label: this.barChartData[i].label};
-      for (let j = 0; j < this.barChartData[i].data.length; j++) {
-        _newChartData[i].data[j] = this.wd_hourly.data[j].temperature;
+      _newChartData_temperature[i] = {data: new Array(12), "label": 'Hourly'};
+      _newChartData_humidity[i] = {data: new Array(12), "label": 'Hourly'};
+      _newChartData_windSpeed[i] = {data: new Array(12), "label": 'Hourly'};
+      _newChartData_pressure[i] = {data: new Array(12), "label": 'Hourly'};
+
+      for (let j = 0; j < 12; j++) {
+        _newChartData_temperature[i].data[j] = this.wd_hourly.data[j].temperature;
+        _newChartData_humidity[i].data[j] = this.wd_hourly.data[j].humidity;
+        _newChartData_windSpeed[i].data[j] = this.wd_hourly.data[j].windSpeed;
+        _newChartData_pressure[i].data[j] = this.wd_hourly.data[j].pressure;
       }
     }
-    this.barChartData = _newChartData;
+
+    this.barChartData_temperature = _newChartData_temperature;
+    this.barChartData_humidity = _newChartData_humidity;
+    this.barChartData_windSpeed =  _newChartData_windSpeed;
+    this.barChartData_pressure = _newChartData_pressure;
+
+    
+    if(this.metric == 'temperature') this.barChartData = _newChartData_temperature;
+    else if(this.metric == 'humidity') this.barChartData = _newChartData_humidity;
+    else if(this.metric == 'windSpeed') this.barChartData = _newChartData_windSpeed;
+    else if(this.metric == 'pressure') this.barChartData = _newChartData_pressure;
+
+
 
     //Build chart x labels
     for(let i = 0; i < 12; i++){
@@ -148,7 +204,7 @@ export class HourlyComponent implements OnInit, OnDestroy{
     console.log(e);
   }
 
-  public lineChartColors:Array<any> = [
+  public barChartColors:Array<any> = [
     {  // dark grey
       backgroundColor: 'rgba(77,83,96,0.2)',
       borderColor: 'rgba(77,83,96,1)',
@@ -167,8 +223,63 @@ export class HourlyComponent implements OnInit, OnDestroy{
     }
   ];
 
-  showTip(data){
-    this.tipData = data;
+  changeMode(mode){
+    this.mode = mode;
+  }
+
+
+  changeMetric(metric){
+    this.metric = metric;
+    
+    if(this.metric == 'temperature') this.barChartData = this.barChartData_temperature;
+    else if(this.metric == 'humidity') this.barChartData = this.barChartData_humidity;
+    else if(this.metric == 'windSpeed') this.barChartData = this.barChartData_windSpeed;
+    else if(this.metric == 'pressure') this.barChartData = this.barChartData_pressure;
+
+    if(this.metric == 'temperature') this.historyChartData = this.historyChartData_temperature;
+    else if(this.metric == 'humidity') this.historyChartData = this.historyChartData_humidity;
+    else if(this.metric == 'windSpeed') this.historyChartData = this.historyChartData_windSpeed;
+    else if(this.metric == 'pressure') this.historyChartData = this.historyChartData_pressure;
+  }
+
+
+
+  onWeatherHistoryGet(res){
+    this.weatherHistory = res;
+    
+    if(this.weatherHistory.length == 8){
+      
+        let _newChartData_temperature:Array<any> = new Array(1);
+        let _newChartData_humidity:Array<any> = new Array(1);
+        let _newChartData_windSpeed:Array<any> = new Array(1);
+        let _newChartData_pressure:Array<any> = new Array(1);
+
+        _newChartData_temperature[0] = {data: new Array(this.historyChartData[0].data.length), label: "Temperature"};
+        _newChartData_humidity[0] = {data: new Array(this.historyChartData[0].data.length), label: "Humidity"};
+        _newChartData_windSpeed[0] = {data: new Array(this.historyChartData[0].data.length), label: "Wind speed"};
+        _newChartData_pressure[0] = {data: new Array(this.historyChartData[0].data.length), label: "Pressure"};
+
+          for (let j = 0; j < this.weatherHistory.length; j++) {
+            _newChartData_temperature[0].data[j] = this.weatherHistory[j].temperature;
+            _newChartData_humidity[0].data[j] = this.weatherHistory[j].humidity;
+            _newChartData_windSpeed[0].data[j] = this.weatherHistory[j].windSpeed;
+            _newChartData_pressure[0].data[j] = this.weatherHistory[j].pressure;
+          }
+        
+        this.historyChartData_temperature = _newChartData_temperature;
+        this.historyChartData_humidity = _newChartData_humidity;
+        this.historyChartData_windSpeed =  _newChartData_windSpeed;
+        this.historyChartData_pressure = _newChartData_pressure;
+
+        
+        if(this.metric == 'temperature') this.historyChartData = _newChartData_temperature;
+        else if(this.metric == 'humidity') this.historyChartData = _newChartData_humidity;
+        else if(this.metric == 'windSpeed') this.historyChartData = _newChartData_windSpeed;
+        else if(this.metric == 'pressure') this.historyChartData = _newChartData_pressure;
+
+        this.historyChartLabels = ["A day ago", "A week ago", "A month ago", "6 months ago", "A year ago", "5 years ago", "A decade ago", "20 years ago"];
+        
+      }    
   }
 
 }

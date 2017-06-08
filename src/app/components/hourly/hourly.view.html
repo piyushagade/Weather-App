@@ -13,7 +13,22 @@
 
         <div class="row">
             <div class="col-sm-12 col-md-12 card-no-margin card-black test">
-                Hourly forecast
+                <a class="btn-solid-dark" [ngClass]='{"active": mode === "hourly"}' (click)="changeMode('hourly')">Hourly forecast</a>
+                <a class="btn-solid-dark" [ngClass]='{"active": mode === "today"}' (click)="changeMode('today')">Today's stats</a>
+                <a class="btn-solid-dark" [ngClass]='{"active": mode === "history"}' (click)="changeMode('history')">History</a>
+
+                <div class="dropdown" style="float: right;">
+                    <button class="btn-solid dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        {{ metric }}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li class="dropdown-item" (click)="changeMetric('temperature')"><a>Temperature</a></li>
+                        <li class="dropdown-item" (click)="changeMetric('humidity')"><a>Humidity</a></li>
+                        <li class="dropdown-item" (click)="changeMetric('windSpeed')"><a>Wind speed</a></li>
+                        <li class="dropdown-item" (click)="changeMetric('pressure')"><a>Pressure</a></li>
+                    </ul>
+                </div>
             </div>
 
             
@@ -34,16 +49,28 @@
                 </div>-->
 
             <div class="col-sm-12 col-md-12 card-no-margin card-4 test">
-                <div style="display: block;">
+                <!--Hourly forecast-->
+                <div style="display: block;" *ngIf="mode === 'hourly'">
                     <canvas baseChart height="100"
                         [datasets]="barChartData"
                         [labels]="barChartLabels"
                         [options]="barChartOptions"
                         [legend]="barChartLegend"
-                        [colors]="lineChartColors"
+                        [colors]="barChartColors"
                         [chartType]="barChartType"
                         (chartHover)="chartHovered($event)"
                         (chartClick)="chartClicked($event)"></canvas>
+                </div>
+
+                <!--History-->
+                <div style="display: block;" *ngIf="mode === 'history'">
+                    <canvas baseChart height="100"
+                        [datasets]="historyChartData"
+                        [labels]="historyChartLabels"
+                        [options]="barChartOptions"
+                        [legend]="barChartLegend"
+                        [colors]="barChartColors"
+                        [chartType]="barChartType"></canvas>
                 </div>
             </div>
         </div>

@@ -30,6 +30,9 @@ export class HomeComponent {
 
   // Weather information
   weatherData: any;
+  weatherHistory: Object[] = [];
+  factor = [1, 7, 30, 180, 365, 1825, 3650, 7300];
+
   cityName: string;
   wd_current_temperature: string = "";
   wd_currently: any = [];
@@ -77,7 +80,9 @@ export class HomeComponent {
                       response => this.weatherData = response,
                       error => console.log("Error while getting weather data"),
                       () => this.onWeatherGet()
-                    );    
+                    );   
+
+                  
                 }
             )
             .then(() => console.log('Coordinates acquired.'))
@@ -168,12 +173,28 @@ export class HomeComponent {
 
     // Share data
     this._s.sendWeatherData(this.weatherData);
+    this._s.sendWeatherHistory(this.weatherHistory);
 
     // Format current temperature
     this.wd_current_temperature = this.wd_currently.temperature.toString().split(".")[0];
 
-    
- 
+
+    // Get weather history for current coordinates
+      for(let i = 0; i < this.factor.length; i++){
+          let time = this.wd_currently.time - 86400 * this.factor[i];
+          
+          this._ws.getWeatherHistory(this.current_lat, this.current_lng, time.toString())
+            .subscribe(
+              response => this.weatherHistory.push(response._body.currently),
+              error => console.log("Error while getting weather history"),
+              () => this.onWeatherHistoryGet()
+            );
+      }
+  }
+
+  onWeatherHistoryGet(){    
+    // Share data
+    this._s.sendWeatherHistory(this.weatherHistory);
   }
 
 

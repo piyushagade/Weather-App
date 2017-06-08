@@ -12,6 +12,10 @@ export class SharerService {
   public sendWeatherData(data: any) {
       this.notify.next(data);
   }
+  
+  public sendWeatherHistory(data: any[]) {
+      if(data.length != 0) this.notify.next(data);
+  }
 
   public sendCityName(data: any) {
       this.notify.next(data);
