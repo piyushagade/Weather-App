@@ -40,8 +40,8 @@
 
 .card-no-margin {
   margin: 0px;
-  margin-left: 0px;
-  margin-right: 20px;
+  margin-left: 18px;
+  margin-right: 0px;
   margin-bottom: 20px;
   padding: 10px 16px 10px 16px;
   position: relative;
@@ -57,8 +57,6 @@
 .card:last-child {
   margin-bottom: 16px;
 }
-
-
 
 .card-weather-icons:first-child {
   margin-left: 10px;
@@ -76,50 +74,42 @@
   border-radius: 0;
 }
 
+
 .card-2 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.56);
+  transition: 1s all ease-in-out;
 }
 
 .card-3 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.49);
 }
 
 .card-4 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.42);
 }
 
 .card-5 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.35);
 }
 
 .card-6 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.28);
 }
 
 .card-7 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.21);
 }
 
 .card-8 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .card-9 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.7);
 }
 
 .card-black {
-  opacity: 0.7;
   background: rgba(20, 25, 26, 0.9);
-  color: #eee;
 }
 
 

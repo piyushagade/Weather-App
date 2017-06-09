@@ -12,9 +12,9 @@
         </template>-->
 
         <div class="row">
-            <div class="col-sm-12 col-md-12 card-no-margin card-black test">
-                <a class="btn-solid-dark" [ngClass]='{"active": mode === "hourly"}' (click)="changeMode('hourly')">Next 12 hours</a>
-                <a class="btn-solid-dark" [ngClass]='{"active": mode === "history"}' (click)="changeMode('history')">History</a>
+            <div class="col-xs-12 col-sm-12 col-md-12 card-no-margin card-4">
+                <a class="btn-solid" [ngClass]='{"active": mode === "hourly"}' (click)="changeMode('hourly')">Next 12 hours</a>
+                <a class="btn-solid" [ngClass]='{"active": mode === "history"}' (click)="changeMode('history')">History</a>
 
                 <div class="dropdown" style="float: right;">
                     <button class="btn-solid dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

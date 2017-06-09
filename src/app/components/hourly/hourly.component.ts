@@ -178,12 +178,23 @@ export class HourlyComponent implements OnInit, OnDestroy{
             margin: 10,
             ticks: {
                 padding: 20,
+                fontColor: '#333'
 
             },
             scaleLabel: {
                 display: true,
                 labelString: ''
             }
+        }], 
+        xAxes: [{
+            margin: 10,
+            ticks: {
+                fontColor: '#333',
+
+            },
+            gridLines: {
+                    display: false,
+                },
         }], 
     }
   };

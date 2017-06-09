@@ -172,8 +172,6 @@ export class CurrentComponent implements OnInit, OnDestroy{
     if(!this.loggedIn && this.localSearchHistory) {
       this._lss.set('localSearchHistory', this.searchHistory);
       this.localSearchHistory = this.searchHistory;
-      console.log("Local storage set to: "+ this._lss.get('localSearchHistory'));
-      
     }
 
     // Save on cloud

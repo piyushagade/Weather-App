@@ -147,7 +147,7 @@
                         </div>
 
                         <div class="row">
-                            <input  autocomplete="on" type="text" class="inp-solid" style="margin-left: 10px;" [(ngModel)]='custom_city' #newLocation [placeholder]="showChangeLocationTip ? 'Enter a city and press enter.' : 'Change location...'" (blur)="onChangeLocationBlur()" (focus)="onChangeLocationFocus()" (keyup.enter)="getCoords(newLocation.value, true)"/>
+                            <input type="text" class="inp-solid" style="margin-left: 10px;" [(ngModel)]='custom_city' #newLocation [placeholder]="showChangeLocationTip ? 'Enter a city and press enter.' : 'Change location...'" (blur)="onChangeLocationBlur()" (focus)="onChangeLocationFocus()" (keyup.enter)="getCoords(newLocation.value, true)"/>
                         </div>
                     </div>
 

@@ -38,14 +38,37 @@
 }
 
 
-.card-no-margin {
+.card {
   margin: 0px;
-  margin-left: 14px;
-  margin-right: 0px;
+  margin-left: 18px;
+  margin-right: 14px;
   padding: 10px 16px 10px 16px;
   position: relative;
   border: 0;
   width: 100%;
+  border-radius: 0;
+}
+
+.card {
+  margin: 0px;
+  margin-left: 14px;
+  margin-right: 14px;
+  padding: 10px 16px 10px 16px;
+  position: relative;
+  border: 0;
+  width: 100%;
+  border-radius: 0;
+}
+
+
+.card-no-margin {
+  margin: 0px;
+  margin-left: 26px;
+  margin-right: -14px;
+  padding: 10px 16px 10px 16px;
+  position: relative;
+  border: 0;
+  /*width: 100%;*/
   border-radius: 0;
 }
 
@@ -55,13 +78,6 @@
 }
 .card:last-child {
   margin-bottom: 16px;
-}
-
-
-
-.card-weather-icons:first-child {
-  margin-left: 10px;
-  opacity: 0;
 }
 
 .card-normal {
@@ -76,83 +92,61 @@
 }
 
 .card-2 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.56);
+  transition: 1s all ease-in-out;
 }
 
 .card-3 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.49);
 }
 
 .card-4 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.42);
 }
 
 .card-5 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.35);
 }
 
 .card-6 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.28);
 }
 
 .card-7 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.21);
 }
 
 .card-8 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .card-9 {
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.7);
 }
 
 .card-black {
-  background: rgba(20, 25, 26, 0.63);
-  color: #eee;
+  background: rgba(20, 25, 26, 0.9);
 }
 
 
 .btn-solid{
-  background: rgba(240, 240, 240, 0.4);
+  background: rgba(240, 240, 240, 0.34);
   border: 0px;
   outline: 0px;
-  color: #222;
   transition: 0.5s all ease-in;
-  margin: 6px;
-  padding: 6px 12px 6px 12px;
-  cursor: pointer;
+  padding: 5px 12px 5px 12px;
+  margin-right: 10px;
+  font-size: 12px;
 }
 
 .btn-solid:hover{
   background: rgba(240, 240, 240, 0.9);
 }
 
-.btn-solid-dark{
-  background: rgba(80, 80, 80, 0.4);
-  border: 0px;
-  outline: 0px;
-  transition: 0.5s all ease-in;
-  padding: 6px 12px 6px 12px;
-  margin-right: 10px;
-  font-size: 12px;
-}
 
 .active{
-  background: rgba(180, 180, 180, 0.6);
+  background: rgba(240, 240, 240, 0.8);
   color: #444;
-}
-
-.btn-solid-dark:first-child{
-  margin-left: -4px;
 }
 
 .btn-solid-dark:hover{
@@ -165,8 +159,9 @@
   border: 0px;
   outline: 0px;
   color: #222;
+  font-size: 12px;
   transition: 0.5s all ease-in;
-  height: 32px;
+  height: 26px;
   margin-top: -0px;
   margin-bottom: -2px;
   margin-right: -4px;
@@ -174,7 +169,7 @@
 }
 
 .caret{
-  margin-left: 4px; 
+  margin-left: 0px; 
   margin-top: 4px;
 }
 
@@ -188,6 +183,7 @@
   border: 0 ;
   border-radius: 0;
   margin-top: 10px;
+  font-size: 14px;
 }
 
 .dropdown-item{
