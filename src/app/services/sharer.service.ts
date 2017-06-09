@@ -14,10 +14,14 @@ export class SharerService {
   }
   
   public sendWeatherHistory(data: any[]) {
-      if(data.length != 0) this.notify.next(data);
+     if(data.length != 0) this.notify.next(data);
   }
 
   public sendCityName(data: any) {
+      this.notify.next(data);
+  }
+  
+  public sendLocationDenied(data: any) {
       this.notify.next(data);
   }
 }

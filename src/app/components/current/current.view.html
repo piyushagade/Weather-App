@@ -83,7 +83,7 @@
             
             <div class="center-div card-no-margin card-3 test">
                     <div style="width: auto; text-align: center; margin-top: -50px;">
-                        <span class="current-temperature">{{ wd_current_temperature }}</span>
+                        <span class="current-temperature">{{ wd_current_temperature | round }}</span>
                         <span class="unit-temperature"><img src="../../../assets/images/sky_grey.png" height="60%"></span>
                     </div>
             </div>
@@ -114,22 +114,35 @@
                     <div class="card-no-margin card-2" style="z-index: 10;"> 
                         <span class="faint small">
                             Location:
-                            <i *ngIf="locationDenied" class="medium material-icons test" style="float: right; margin-left: 12px;" (click)="goToMyLocation()">my_location</i>
+                            <i *ngIf="!locationDenied" class="medium material-icons test" style="float: right; margin-left: 12px;" (click)="goToMyLocation()">my_location</i>
                             <i class="medium material-icons test" style="float: right; margin-left: 12px;" *ngIf="loggedIn && favouriteCities.indexOf(cityName) == -1" (click)="saveLocation()">favorite_border</i>
                             <i class="medium material-icons test" style="float: right; margin-left: 12px;" *ngIf="loggedIn && favouriteCities.indexOf(cityName) > -1" (click)="removeLocation()">favorite</i>
                         </span><br/>
                         
                         <div class="dropdown">{{ cityName }}
-                            <button *ngIf="loggedIn" class="btn-solid dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <button class="btn-solid dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li class="dropdown-header" *ngIf="searchHistory.length > 0">Search history</li>
-                                <span *ngFor="let history_city of searchHistory; let j = index"><li class="dropdown-item" (click)="historySelected(j)"><a>{{ history_city }}</a></li></span>
-                                
-                                <li class="dropdown-header">Saved locations</li>
-                                <span *ngFor="let favourite_city of favouriteCities; let i = index"><li class="dropdown-item" (click)="favouriteSelected(i)"><a>{{ favourite_city }}</a></li></span>
+                                <template [ngIf] = "!loggedIn && localSearchHistory != null">
+                                    <li class="dropdown-header" *ngIf="localSearchHistory.length > 0">Search history</li>
+                                    <li *ngIf="localSearchHistory.length == 0"  class="dropdown-item disabled">No previous searches</li>
+                                    
+                                    <span *ngFor="let local_history_city of localSearchHistory; let k = index"><li class="dropdown-item" (click)="localHistorySelected(k)"><a>{{ local_history_city }}</a></li></span>
+                                </template>
+                                <li *ngIf="!loggedIn && localSearchHistory == null"  class="dropdown-item disabled">History can't be saved.</li>
+                                <li *ngIf="!loggedIn && localSearchHistory == null"  class="dropdown-item disabled">Don't use Icognito mode.</li>
+
+                                <template [ngIf] = "loggedIn">
+                                    <li class="dropdown-header" *ngIf="searchHistory.length > 0">Search history</li>
+                                    
+                                    <span *ngFor="let history_city of searchHistory; let j = index"><li class="dropdown-item" (click)="historySelected(j)"><a>{{ history_city }}</a></li></span>
+                                </template>
+                                <template [ngIf] = "loggedIn">
+                                    <li class="dropdown-header">Saved locations</li>
+                                    <span *ngFor="let favourite_city of favouriteCities; let i = index" ><li class="dropdown-item" (click)="favouriteSelected(i)"><a>{{ favourite_city }}</a></li></span>
+                                </template>
                             </ul>
                         </div>
 
@@ -158,7 +171,7 @@
                 <div class="col-sm-4 col-md-4 col-lg-4 no-padding">
                     <div class="card card-3"> 
                         <span class="small">Humidity:</span>
-                        {{ wd_currently.humidity * 100 }} %
+                        {{ wd_currently.humidity * 100 | round  }} %
                     </div>
                     
                     <div class="card card-4"> 
@@ -175,7 +188,7 @@
                 <div class="col-sm-8 col-md-8 col-lg-8 no-padding">
                     <div class="card card-6"> 
                         <span class="small">Cloud cover:</span>
-                        {{ wd_currently.cloudCover * 100 }} %
+                        {{ wd_currently.cloudCover * 100 | round }} %
                     </div>
                     
                     <div class="card card-7"> 

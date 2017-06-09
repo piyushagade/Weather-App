@@ -83,7 +83,7 @@ export class HourlyComponent implements OnInit, OnDestroy{
   ngOnInit() {
     this.subscription = this._s.notifyObservable$.subscribe((res) => {
         if (res.hasOwnProperty('currently')) this.onWeatherGet(res);
-        else if (res[0].hasOwnProperty('time')) this.onWeatherHistoryGet(res);
+        else if (res.length > 0 && res[0].hasOwnProperty('time')) this.onWeatherHistoryGet(res);
     });
   }
 

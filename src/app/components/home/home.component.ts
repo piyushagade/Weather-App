@@ -6,7 +6,7 @@ import { GeolocationService } from '../../services/location.service';
 import { WeatherService } from '../../services/weather.service';
 import { GeocoderService } from '../../services/geocoder.service';
 import { SharerService } from '../../services/sharer.service';
-import * as $ from 'jquery';
+import { LocalStorageService } from 'angular-2-local-storage';
 
 @Component({
   selector: 'app-home',
@@ -41,6 +41,7 @@ export class HomeComponent {
   // Weather information
   weatherData: any;
   weatherHistory: Object[] = [];
+  localWeatherHistory: Object[] = [];
   factor = [1, 7, 30, 180, 365, 1825, 3650, 7300];
 
   cityName: string;
@@ -66,13 +67,7 @@ export class HomeComponent {
 
   @Output() weatherReceived = new EventEmitter();
   
-  constructor(public af: AngularFire, private _gl: GeolocationService, private _ws: WeatherService, private _gc: GeocoderService, private _s: SharerService) {
-    this.items = af.database.list('/users', {
-      query: {
-        limitToLast: 500
-      }
-    });
-
+  constructor(private _lss: LocalStorageService, public af: AngularFire, private _gl: GeolocationService, private _ws: WeatherService, private _gc: GeocoderService, private _s: SharerService) {
     // Get current coordinates using Geolocation API
     this.isBusy = true;
     this._gl.getCurrentPosition().forEach(
@@ -131,7 +126,7 @@ export class HomeComponent {
     if(this.location_cityName === undefined) this.location_cityName = this.cityName;
 
     // Share cityName
-    this._s.sendCityName(this.cityName);
+    this._s.sendCityName({ cityName: this.cityName });
   }
 
   // Get coordinates from city name when user can switches to another location
@@ -153,7 +148,7 @@ export class HomeComponent {
     this.cityName = name;
 
     // Share cityName
-    this._s.sendCityName(this.cityName);
+    this._s.sendCityName({ cityName: this.cityName });
 
     
 
@@ -191,26 +186,31 @@ export class HomeComponent {
     this._s.sendWeatherData(this.weatherData);
     this._s.sendWeatherHistory(this.weatherHistory);
 
-    // Format current temperature
-    this.wd_current_temperature = this.wd_currently.temperature.toString().split(".")[0];
+    this.wd_current_temperature = this.wd_currently.temperature;
 
-
-    // Get weather history for current coordinates
-      for(let i = 0; i < this.factor.length; i++){
-          let time = this.wd_currently.time - 86400 * this.factor[i];
-          
-          this._ws.getWeatherHistory(this.current_lat, this.current_lng, time.toString())
-            .subscribe(
-              response => this.weatherHistory.push(response._body.currently),
-              error => console.log("Error while getting weather history"),
-              () => this.onWeatherHistoryGet()
-            );
+    // Get weather history for current coordinates from cloud
+    for(let i = 0; i < this.factor.length; i++){
+        let time = this.wd_currently.time - 86400 * this.factor[i];
+        
+        this._ws.getWeatherHistory(this.current_lat, this.current_lng, time.toString())
+          .subscribe(
+            response => this.weatherHistory.push(response._body.currently),
+            error => console.log("Error while getting weather history"),
+            () => this.onWeatherHistoryGet()
+          );
       }
   }
 
   onLocationDeny(){
     this.locationDenied = true;
     this.getCoords('New Delhi');
+
+
+    // Share cityName
+    this._s.sendCityName({ cityName: this.cityName });
+
+    // Share locationDenied
+    this._s.sendLocationDenied({ locationDenied: this.locationDenied });
   }
 
   onWeatherHistoryGet(){    
@@ -221,8 +221,8 @@ export class HomeComponent {
 
   // Spinner functions
   spinnerFunction(isBusy){
-    if(isBusy) this.setBusy();
-    else this.setIdle();
+    // if(isBusy) this.setBusy();
+    // else this.setIdle();
   }
 
   setBusy(){
@@ -235,6 +235,8 @@ export class HomeComponent {
     setTimeout(function() {
       this.weatherLoaded = true;
     }.bind(this), 1400);
+
+    
   }
 
   // Chart

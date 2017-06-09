@@ -24,6 +24,7 @@ import { RelativeDatePipe } from '../pipes/relative-date.pipe';
 import { SmartDatePipe } from '../pipes/smart-date.pipe';
 
 import { ChartsModule } from 'ng2-charts';
+import { LocalStorageModule } from 'angular-2-local-storage';
 
 
 @NgModule({
@@ -33,9 +34,6 @@ import { ChartsModule } from 'ng2-charts';
     CurrentComponent,
     HourlyComponent,
     DailyComponent,
-
-    SmartDatePipe,
-    RelativeDatePipe,
 
   ],
   imports: [
@@ -47,12 +45,19 @@ import { ChartsModule } from 'ng2-charts';
     JsonpModule,
     ChartsModule,
 
+    NgPipesModule,
+    LocalStorageModule.withConfig({
+        prefix: 'sc-app',
+        storageType: 'localStorage'
+    })
+
   ],
   providers: [
     GeolocationService,
     WeatherService,
     GeocoderService,
     SharerService,
+    // LocalStorageService,
 
   ],
   bootstrap: [

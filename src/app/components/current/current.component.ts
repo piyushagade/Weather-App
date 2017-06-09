@@ -5,6 +5,7 @@ import { GeocoderService } from '../../services/geocoder.service';
 import { SharerService } from '../../services/sharer.service';
 import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { Subscription } from 'rxjs/Subscription';
+import { LocalStorageService } from 'angular-2-local-storage';
 
 @Component({
     selector: 'sc-current',
@@ -50,7 +51,8 @@ export class CurrentComponent implements OnInit, OnDestroy{
     wd_currently_icon: string = "clear-day";
 
     favouriteCities: string[] = [];
-    searchHistory: string[] = [];
+    searchHistory: any = [];
+    localSearchHistory: {};
 
     // Location data
     current_lat: string;
@@ -62,23 +64,17 @@ export class CurrentComponent implements OnInit, OnDestroy{
     barChartData: any[];
     private subscription: Subscription;
 
-
-  constructor(public af: AngularFire, private _gl: GeolocationService, private _ws: WeatherService, private _gc: GeocoderService, private _s: SharerService) {
-    // get messages in the chatroom
-    this.user = af.database.list('/users/' + this.uid, {
-        query: {
-            limitToLast: 100
-        }
-    });
+    locationDenied = false;
+    favourite_subscriber;
+    history_subscriber;
 
 
-    this.user.subscribe((response) => {
-      if (response.length == 0) {
-        this.noCloudData = true;
-      }
-      else
-        this.noCloudData = false;
-    });
+  constructor(private _lss: LocalStorageService, public af: AngularFire, private _gl: GeolocationService, private _ws: WeatherService, private _gc: GeocoderService, private _s: SharerService) {
+    // Load local search history
+    this.localSearchHistory = this._lss.get('localSearchHistory');
+    
+    // Reset local search history
+    // this._lss.set('localSearchHistory', []);
     
     // Check if user is logged in
     this.af.auth.subscribe(auth => {
@@ -97,14 +93,14 @@ export class CurrentComponent implements OnInit, OnDestroy{
                             }
         );
         
-        this.user_favourites
+        this.favourite_subscriber = this.user_favourites
             .subscribe(
               snapshots =>{ snapshots.forEach(snapshot => {
               if(this.favouriteCities.indexOf(snapshot.key) == -1) this.favouriteCities.push(snapshot.key);
             });
         })
 
-        this.user_history
+        this.history_subscriber = this.user_history
             .subscribe(
               snapshots =>{ snapshots.forEach(snapshot => {
               if(this.searchHistory.indexOf(snapshot.key) == -1) this.searchHistory.push(snapshot.key);
@@ -114,6 +110,7 @@ export class CurrentComponent implements OnInit, OnDestroy{
         this.setIdle(); 
       }
       else{
+        
         this.loggedIn = false;
         this.setIdle();    
       }
@@ -126,31 +123,44 @@ export class CurrentComponent implements OnInit, OnDestroy{
     this.af.auth.login({
       provider: AuthProviders.Facebook,
       method: AuthMethods.Popup
-    })
-    this.setBusy();    
+    });
+
+    this.searchHistory = [];
   }
 
   logout() {
      this.af.auth.logout();
      this.name = null;
-     this.setBusy();   
+     
+     this.favourite_subscriber.unsubscribe();
+     this.history_subscriber.unsubscribe();
   }
 
   getCoords(name: string, flag: boolean){
     //Capitalize words
     if(flag) name = name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()});
-    
-    // Save serachHistory
+
+    if(!this.loggedIn && this.localSearchHistory) {
+      this.searchHistory = this.localSearchHistory;
+    }
+
+    // Save serachHistory on cloud
     if(this.searchHistory.indexOf(name) != -1){
       this.searchHistory.splice(this.searchHistory.indexOf(name), 1);
       this.af.database.object('/users/' + this.uid + '/history/' + name)
-      .remove();
+      .remove()
+      .catch(error => {
+                console.log("Firebase disconnected. User has signed out.");
+      });
     }
 
     if(this.searchHistory.length >= 5) {
       console.log("History size greater than 5. Removing " + this.searchHistory[0]);
       this.af.database.object('/users/' + this.uid + '/history/' + this.searchHistory[0])
-      .remove();
+      .remove()
+      .catch(error => {
+                console.log("Firebase disconnected. User has signed out.");
+      });
       this.searchHistory.splice(0, 1);    
       
     }
@@ -158,9 +168,20 @@ export class CurrentComponent implements OnInit, OnDestroy{
     // Save in array
     this.searchHistory.push(name);
 
+    //Save localSearchHistory on localStorage
+    if(!this.loggedIn && this.localSearchHistory) {
+      this._lss.set('localSearchHistory', this.searchHistory);
+      this.localSearchHistory = this.searchHistory;
+      console.log("Local storage set to: "+ this._lss.get('localSearchHistory'));
+      
+    }
+
     // Save on cloud
     this.af.database.object('/users/' + this.uid + '/history/' + name)
       .set(Math.floor(Date.now() / 1000))
+      .catch(error => {
+                console.log("Firebase disconnected. User has signed out.");
+      });
 
     
     // Emit event
@@ -177,13 +198,18 @@ export class CurrentComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     this.subscription = this._s.notifyObservable$.subscribe((res) => {
+      
         if (res.hasOwnProperty('currently')) this.onWeatherGet(res);
-        else if (!res[0].hasOwnProperty('time')) this.onCityNameGet(res);
+        else if (res.hasOwnProperty('cityName')) this.onCityNameGet(res);
+        else if (res.hasOwnProperty('locationDenied')) this.onLocationDeniedGet(res);
     });
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+     
+    this.favourite_subscriber.unsubscribe();
+    this.history_subscriber.unsubscribe();
   }
 
   onWeatherGet(res){
@@ -196,6 +222,7 @@ export class CurrentComponent implements OnInit, OnDestroy{
     this.wd_daily = this.weatherData.daily;
 
     this.wd_currently_icon = this.weatherData.currently.icon.trim();
+    this.wd_current_temperature = this.wd_currently.temperature;
 
     for(let i = 0; i < this.wd_hourly.data.length; i++){
       let target_1 = this.wd_hourly.data[0].time + 3600;
@@ -214,15 +241,17 @@ export class CurrentComponent implements OnInit, OnDestroy{
       
     }
 
-    // Format current temperature
-    this.wd_current_temperature = this.wd_currently.temperature.toString().split(".")[0];
   }
 
   onCityNameGet(res){
-      this.cityName = res;
+      this.cityName = res.cityName;
 
         // Reset input box
         this.custom_city = "";
+  }
+  
+  onLocationDeniedGet(res){
+      this.locationDenied = res.locationDenied;
   }
 
   // Show weather from user's location manually
@@ -233,13 +262,19 @@ export class CurrentComponent implements OnInit, OnDestroy{
   saveLocation(){
     this.af.database.object('/users/' + this.uid + '/favourites/' + this.cityName)
       .set(Math.floor(Date.now() / 1000))
-      .then(_ => console.log('Favourite city set.'));
+      .then(_ => console.log('Favourite city set.'))
+      .catch(error => {
+                console.log("Firebase disconnected. User has signed out.");
+      });
   }
 
   removeLocation(){
     this.af.database.object('/users/' + this.uid + '/favourites/' + this.cityName)
       .remove()
-      .then(_ => console.log('Favourite city deleted.'));
+      .then(_ => console.log('Favourite city deleted.'))
+      .catch(error => {
+                console.log("Firebase disconnected. User has signed out.");
+      });
       
       this.favouriteCities.splice(this.favouriteCities.indexOf(this.cityName), 1);
   }
@@ -251,6 +286,10 @@ export class CurrentComponent implements OnInit, OnDestroy{
 
   historySelected(index){
     this.getCoords(this.searchHistory[index], false);
+  }
+
+  localHistorySelected(index){
+    this.getCoords(this.localSearchHistory[index], false);
   }
 
 
