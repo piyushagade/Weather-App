@@ -173,11 +173,10 @@ export class HourlyComponent implements OnInit, OnDestroy{
     scaleShowVerticalLines: false,
     scaleShowGridLines : false,
     responsive: true,
+    maintainAspectRatio: false,
     scales: {
         yAxes: [{
-            margin: 10,
             ticks: {
-                padding: 20,
                 fontColor: '#333'
 
             },
@@ -187,7 +186,6 @@ export class HourlyComponent implements OnInit, OnDestroy{
             }
         }], 
         xAxes: [{
-            margin: 10,
             ticks: {
                 fontColor: '#333',
 

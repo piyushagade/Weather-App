@@ -47,10 +47,10 @@
                     </span>
                 </div>-->
 
-            <div class="col-sm-12 col-md-12 card-no-margin card-4 test">
+            <div class="col-sm-12 col-md-12 card-no-margin card-4 test" >
                 <!--Hourly forecast-->
-                <div style="display: block;" *ngIf="mode === 'hourly'">
-                    <canvas baseChart height="100"
+                <div  *ngIf="mode === 'hourly'">
+                    <canvas baseChart height="320"
                         [datasets]="barChartData"
                         [labels]="barChartLabels"
                         [options]="barChartOptions"
@@ -63,7 +63,7 @@
 
                 <!--History-->
                 <div style="display: block;" *ngIf="mode === 'history'">
-                    <canvas baseChart height="100"
+                    <canvas baseChart height="320"
                         [datasets]="historyChartData"
                         [labels]="historyChartLabels"
                         [options]="barChartOptions"
